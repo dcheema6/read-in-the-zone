@@ -5,7 +5,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: 'rsvp-read-selection',
-    title: 'Read Selection',
+    title: 'Read in the Zone',
     contexts: ['selection']
   });
 });
@@ -38,7 +38,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
     if (results && results[0] && results[0].result) {
       const articleText = results[0].result;
-      
+
       // Send extracted text to content script
       chrome.tabs.sendMessage(tab.id, {
         action: 'START_RSVP',
@@ -58,11 +58,11 @@ function extractArticleContent() {
   try {
     // Clone the document to avoid modifying the original
     const documentClone = document.cloneNode(true);
-    
+
     // Use Readability to parse the article
     const reader = new Readability(documentClone);
     const article = reader.parse();
-    
+
     if (article && article.textContent) {
       return article.textContent;
     } else {
