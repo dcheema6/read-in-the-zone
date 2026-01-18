@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Read in the Zone - RSVP Reader",
+  "version": "1.0.0",
+  "description": "Speed read any text using Rapid Serial Visual Presentation with an elegant Picture-in-Picture overlay",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Read in the Zone - Start RSVP Reading"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
