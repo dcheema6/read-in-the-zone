@@ -84,8 +84,8 @@ Since we do not collect any personal data, there is no user data to access, modi
 
 If you have any questions or concerns about this privacy policy or the Extension's data practices, please contact:
 
-**Email**: [Your Contact Email]  
-**GitHub**: https://github.com/[your-username]/read-in-the-zone
+**Email**: dcheema2096@gmail.com  
+**GitHub**: https://github.com/dcheema6/read-in-the-zone
 
 ## Compliance
 

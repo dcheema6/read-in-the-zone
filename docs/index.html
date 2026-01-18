@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -203,6 +204,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -217,7 +219,8 @@
 
         <div class="content-card">
             <h2>Overview</h2>
-            <p>Read in the Zone - RSVP Reader ("the Extension") is committed to protecting your privacy. This privacy policy explains how the Extension handles user data and information.</p>
+            <p>Read in the Zone - RSVP Reader ("the Extension") is committed to protecting your privacy. This privacy
+                policy explains how the Extension handles user data and information.</p>
         </div>
 
         <div class="content-card">
@@ -242,28 +245,35 @@
 
             <div class="permission-item">
                 <h3>1. activeTab Permission</h3>
-                <p><strong>Purpose:</strong> To access the content of the current webpage when you explicitly activate the Extension</p>
-                <p><strong>Usage:</strong> Allows the Extension to read article text or selected text for RSVP display</p>
-                <p><strong>Data Handling:</strong> Content is processed locally in your browser and is never stored or transmitted</p>
+                <p><strong>Purpose:</strong> To access the content of the current webpage when you explicitly activate
+                    the Extension</p>
+                <p><strong>Usage:</strong> Allows the Extension to read article text or selected text for RSVP display
+                </p>
+                <p><strong>Data Handling:</strong> Content is processed locally in your browser and is never stored or
+                    transmitted</p>
             </div>
 
             <div class="permission-item">
                 <h3>2. contextMenus Permission</h3>
-                <p><strong>Purpose:</strong> To add a "Read Selection" option to your browser's right-click context menu</p>
+                <p><strong>Purpose:</strong> To add a "Read Selection" option to your browser's right-click context menu
+                </p>
                 <p><strong>Usage:</strong> Provides a convenient way to trigger RSVP reading on selected text</p>
                 <p><strong>Data Handling:</strong> No data is collected or transmitted through this feature</p>
             </div>
 
             <div class="permission-item">
                 <h3>3. scripting Permission</h3>
-                <p><strong>Purpose:</strong> To inject the RSVP overlay interface into webpages when you activate the Extension</p>
+                <p><strong>Purpose:</strong> To inject the RSVP overlay interface into webpages when you activate the
+                    Extension</p>
                 <p><strong>Usage:</strong> Displays the speed reading interface using Shadow DOM technology</p>
-                <p><strong>Data Handling:</strong> All code execution is local; no user data is collected or transmitted</p>
+                <p><strong>Data Handling:</strong> All code execution is local; no user data is collected or transmitted
+                </p>
             </div>
 
             <div class="permission-item">
                 <h3>Note on Content Scripts</h3>
-                <p>The Extension registers a content script that runs on all websites (<code>&lt;all_urls&gt;</code>). This content script:</p>
+                <p>The Extension registers a content script that runs on all websites (<code>&lt;all_urls&gt;</code>).
+                    This content script:</p>
                 <ul>
                     <li>Runs in an isolated environment and does not grant host permissions</li>
                     <li>Only listens for messages from the Extension</li>
@@ -276,10 +286,16 @@
         <div class="content-card">
             <h2>How the Extension Works</h2>
             <ol>
-                <li><strong>Text Selection Mode:</strong> When you select text and choose "Read Selection" from the context menu, the Extension reads the selected text from the DOM and displays it word-by-word in an overlay</li>
-                <li><strong>Article Mode:</strong> When you click the Extension icon, it uses Readability.js (a Mozilla library) to extract the main article content from the current page and displays it in the RSVP overlay</li>
-                <li><strong>Local Processing:</strong> All text processing, word timing calculations, and display logic happen entirely within your browser</li>
-                <li><strong>No Storage:</strong> The Extension does not store any reading history, preferences, or personal data</li>
+                <li><strong>Text Selection Mode:</strong> When you select text and choose "Read Selection" from the
+                    context menu, the Extension reads the selected text from the DOM and displays it word-by-word in an
+                    overlay</li>
+                <li><strong>Article Mode:</strong> When you click the Extension icon, it uses Readability.js (a Mozilla
+                    library) to extract the main article content from the current page and displays it in the RSVP
+                    overlay</li>
+                <li><strong>Local Processing:</strong> All text processing, word timing calculations, and display logic
+                    happen entirely within your browser</li>
+                <li><strong>No Storage:</strong> The Extension does not store any reading history, preferences, or
+                    personal data</li>
             </ol>
         </div>
 
@@ -292,26 +308,32 @@
                 <ul>
                     <li>This library runs entirely locally in your browser</li>
                     <li>No data is sent to Mozilla or any external servers</li>
-                    <li>Source: <a href="https://github.com/mozilla/readability" target="_blank">https://github.com/mozilla/readability</a></li>
+                    <li>Source: <a href="https://github.com/mozilla/readability"
+                            target="_blank">https://github.com/mozilla/readability</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="content-card">
             <h2>Data Security</h2>
-            <p>Since the Extension does not collect, store, or transmit any data, there are no data security concerns related to external storage or transmission. All processing occurs locally within your browser's secure environment.</p>
+            <p>Since the Extension does not collect, store, or transmit any data, there are no data security concerns
+                related to external storage or transmission. All processing occurs locally within your browser's secure
+                environment.</p>
         </div>
 
         <div class="content-card">
             <h2>Children's Privacy</h2>
-            <p>The Extension does not knowingly collect any information from children or any other users. It is safe for users of all ages as it operates entirely locally without data collection.</p>
+            <p>The Extension does not knowingly collect any information from children or any other users. It is safe for
+                users of all ages as it operates entirely locally without data collection.</p>
         </div>
 
         <div class="content-card">
             <h2>Your Rights</h2>
-            <p>Since we do not collect any personal data, there is no user data to access, modify, or delete. You maintain complete control over the Extension's functionality:</p>
+            <p>Since we do not collect any personal data, there is no user data to access, modify, or delete. You
+                maintain complete control over the Extension's functionality:</p>
             <ul>
-                <li>You can disable or remove the Extension at any time through Chrome's extension management page (chrome://extensions/)</li>
+                <li>You can disable or remove the Extension at any time through Chrome's extension management page
+                    (chrome://extensions/)</li>
                 <li>The Extension only activates when you explicitly choose to use it</li>
                 <li>No background data collection or tracking occurs</li>
             </ul>
@@ -319,14 +341,19 @@
 
         <div class="content-card">
             <h2>Changes to This Privacy Policy</h2>
-            <p>We may update this privacy policy from time to time. Any changes will be reflected in the "Last Updated" date at the top of this document. Continued use of the Extension after changes constitutes acceptance of the updated privacy policy.</p>
+            <p>We may update this privacy policy from time to time. Any changes will be reflected in the "Last Updated"
+                date at the top of this document. Continued use of the Extension after changes constitutes acceptance of
+                the updated privacy policy.</p>
         </div>
 
         <div class="content-card">
             <h2>Contact Information</h2>
-            <p>If you have any questions or concerns about this privacy policy or the Extension's data practices, please contact:</p>
-            <p><strong>Email:</strong> [Your Contact Email]<br>
-            <strong>GitHub:</strong> <a href="https://github.com/dcheema6/read-in-the-zone" target="_blank">https://github.com/dcheema6/read-in-the-zone</a></p>
+            <p>If you have any questions or concerns about this privacy policy or the Extension's data practices, please
+                contact:</p>
+            <p><strong>Email:</strong> <a href="mailto:dcheema2096@gmail.com">dcheema2096@gmail.com</a><br>
+                <strong>GitHub:</strong> <a href="https://github.com/dcheema6/read-in-the-zone"
+                    target="_blank">https://github.com/dcheema6/read-in-the-zone</a>
+            </p>
         </div>
 
         <div class="content-card">
@@ -342,17 +369,23 @@
 
         <div class="content-card">
             <h2>Single Purpose Statement</h2>
-            <p>Read in the Zone - RSVP Reader serves a single purpose: to enable speed reading of web content using Rapid Serial Visual Presentation (RSVP) technology. The Extension allows users to select text or extract article content to read it word-by-word at adjustable speeds in an overlay interface.</p>
+            <p>Read in the Zone - RSVP Reader serves a single purpose: to enable speed reading of web content using
+                Rapid Serial Visual Presentation (RSVP) technology. The Extension allows users to select text or extract
+                article content to read it word-by-word at adjustable speeds in an overlay interface.</p>
         </div>
 
         <div class="content-card">
             <h2>Open Source</h2>
-            <p>The Extension's source code is available for review, demonstrating our commitment to transparency and privacy. You can verify that no data collection or transmission occurs by examining the code.</p>
+            <p>The Extension's source code is available for review, demonstrating our commitment to transparency and
+                privacy. You can verify that no data collection or transmission occurs by examining the code.</p>
         </div>
 
         <div class="footer">
-            <p><strong>Summary:</strong> Read in the Zone - RSVP Reader is a privacy-focused extension that operates entirely locally in your browser. We do not collect, store, or transmit any personal data. Your reading activity remains completely private.</p>
+            <p><strong>Summary:</strong> Read in the Zone - RSVP Reader is a privacy-focused extension that operates
+                entirely locally in your browser. We do not collect, store, or transmit any personal data. Your reading
+                activity remains completely private.</p>
         </div>
     </div>
 </body>
+
 </html>
