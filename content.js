@@ -352,12 +352,27 @@ function initializeRSVPController(shadowRoot, text) {
   const progressText = shadowRoot.getElementById('rsvp-progress-text');
   const closeBtn = shadowRoot.getElementById('rsvp-close');
 
-  // Calculate delay based on word length and WPM
-  function calculateDelay(wordLength) {
+  // Calculate delay based on WPM with extra pauses for punctuation
+  function calculateDelay(word) {
     const baseDelay = (60000 / wpm);
-    // Longer words get slightly more time
-    const lengthFactor = 1 + (wordLength - 5) * 0.05;
-    return baseDelay * Math.max(lengthFactor, 0.5);
+
+    // Check for punctuation at the end of the word
+    const lastChar = word.slice(-1);
+
+    // Add extra pause for punctuation
+    if (/[.!?]/.test(lastChar)) {
+      // Sentence-ending punctuation: 1.5x pause
+      return baseDelay * 1.5;
+    } else if (/[,;:]/.test(lastChar)) {
+      // Clause-ending punctuation: 1.2x pause
+      return baseDelay * 1.2;
+    } else if (/[-—–()]/.test(lastChar)) {
+      // Other punctuation: 1.1x pause
+      return baseDelay * 1.1;
+    }
+
+    // No punctuation: standard delay
+    return baseDelay;
   }
 
   // Calculate ORP (Optimal Recognition Point)
@@ -387,7 +402,7 @@ function initializeRSVPController(shadowRoot, text) {
     requestAnimationFrame(() => {
       const wordEl = shadowRoot.getElementById(uniqueId);
       if (!wordEl) return;
-      
+
       const orpEl = wordEl.querySelector('.orp');
       if (orpEl) {
         const orpRect = orpEl.getBoundingClientRect();
@@ -430,7 +445,7 @@ function initializeRSVPController(shadowRoot, text) {
     updateProgress();
 
     currentIndex++;
-    const delay = calculateDelay(word.length);
+    const delay = calculateDelay(word);
     timerId = setTimeout(displayNextWord, delay);
   }
 
