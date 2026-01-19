@@ -5,40 +5,40 @@ let rsvpOverlay = null;
 
 // Listen for messages from background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'START_RSVP' && message.text) {
-        startRSVP(message.text, message.source);
-    }
+  if (message.action === 'START_RSVP' && message.text) {
+    startRSVP(message.text, message.source);
+  }
 });
 
 function startRSVP(text, source) {
-    // Remove existing overlay if present
-    if (rsvpOverlay) {
-        rsvpOverlay.remove();
-    }
+  // Remove existing overlay if present
+  if (rsvpOverlay) {
+    rsvpOverlay.remove();
+  }
 
-    // Create shadow DOM container
-    rsvpOverlay = document.createElement('div');
-    rsvpOverlay.id = 'rsvp-reader-container';
+  // Create shadow DOM container
+  rsvpOverlay = document.createElement('div');
+  rsvpOverlay.id = 'rsvp-reader-container';
 
-    // Attach shadow DOM for CSS isolation
-    const shadowRoot = rsvpOverlay.attachShadow({ mode: 'open' });
+  // Attach shadow DOM for CSS isolation
+  const shadowRoot = rsvpOverlay.attachShadow({ mode: 'open' });
 
-    // Create and inject UI
-    createRSVPUI(shadowRoot, text, source);
+  // Create and inject UI
+  createRSVPUI(shadowRoot, text, source);
 
-    // Inject into page
-    document.body.appendChild(rsvpOverlay);
+  // Inject into page
+  document.body.appendChild(rsvpOverlay);
 }
 
 function createRSVPUI(shadowRoot, text, source) {
-    // Create container
-    const container = document.createElement('div');
-    container.className = 'rsvp-overlay';
+  // Create container
+  const container = document.createElement('div');
+  container.className = 'rsvp-overlay';
 
-    // Create header with drag handle
-    const header = document.createElement('div');
-    header.className = 'rsvp-header';
-    header.innerHTML = `
+  // Create header with drag handle
+  const header = document.createElement('div');
+  header.className = 'rsvp-header';
+  header.innerHTML = `
     <div class="rsvp-title">
       <span class="rsvp-icon">📖</span>
       <span>Read in the Zone</span>
@@ -47,15 +47,15 @@ function createRSVPUI(shadowRoot, text, source) {
     <button class="rsvp-close" id="rsvp-close">✕</button>
   `;
 
-    // Create word display area
-    const wordDisplay = document.createElement('div');
-    wordDisplay.className = 'rsvp-word-display';
-    wordDisplay.id = 'rsvp-word-display';
+  // Create word display area
+  const wordDisplay = document.createElement('div');
+  wordDisplay.className = 'rsvp-word-display';
+  wordDisplay.id = 'rsvp-word-display';
 
-    // Create controls
-    const controls = document.createElement('div');
-    controls.className = 'rsvp-controls';
-    controls.innerHTML = `
+  // Create controls
+  const controls = document.createElement('div');
+  controls.className = 'rsvp-controls';
+  controls.innerHTML = `
     <button class="rsvp-btn" id="rsvp-play">▶</button>
     <button class="rsvp-btn" id="rsvp-pause" style="display:none;">⏸</button>
     <button class="rsvp-btn" id="rsvp-reset">↻</button>
@@ -67,36 +67,36 @@ function createRSVPUI(shadowRoot, text, source) {
     </div>
   `;
 
-    // Create progress bar
-    const progress = document.createElement('div');
-    progress.className = 'rsvp-progress-container';
-    progress.innerHTML = `
+  // Create progress bar
+  const progress = document.createElement('div');
+  progress.className = 'rsvp-progress-container';
+  progress.innerHTML = `
     <div class="rsvp-progress-bar" id="rsvp-progress-bar"></div>
     <div class="rsvp-progress-text" id="rsvp-progress-text">0%</div>
   `;
 
-    // Assemble UI
-    container.appendChild(header);
-    container.appendChild(wordDisplay);
-    container.appendChild(controls);
-    container.appendChild(progress);
+  // Assemble UI
+  container.appendChild(header);
+  container.appendChild(wordDisplay);
+  container.appendChild(controls);
+  container.appendChild(progress);
 
-    // Add styles
-    const style = document.createElement('style');
-    style.textContent = getStyles();
+  // Add styles
+  const style = document.createElement('style');
+  style.textContent = getStyles();
 
-    shadowRoot.appendChild(style);
-    shadowRoot.appendChild(container);
+  shadowRoot.appendChild(style);
+  shadowRoot.appendChild(container);
 
-    // Initialize RSVP controller
-    initializeRSVPController(shadowRoot, text);
+  // Initialize RSVP controller
+  initializeRSVPController(shadowRoot, text);
 
-    // Make draggable
-    makeDraggable(header, container);
+  // Make draggable
+  makeDraggable(header, container);
 }
 
 function getStyles() {
-    return `
+  return `
     * {
       margin: 0;
       padding: 0;
@@ -158,9 +158,9 @@ function getStyles() {
     .rsvp-source {
       font-size: 12px;
       padding: 4px 10px;
-      background: rgba(99, 102, 241, 0.3);
+      background: rgba(239, 68, 68, 0.3);
       border-radius: 12px;
-      color: #a5b4fc;
+      color: #fca5a5;
       font-weight: 500;
     }
     
@@ -193,31 +193,30 @@ function getStyles() {
       font-size: 48px;
       font-weight: 700;
       color: #fff;
-      letter-spacing: -0.02em;
+      letter-spacing: 0;
       position: relative;
     }
     
     .rsvp-word {
-      display: inline-block;
       position: relative;
+      display: inline-block;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.05s ease-out;
+    }
+    
+    .rsvp-word.positioned {
+      opacity: 1;
     }
     
     .rsvp-char {
-      display: inline-block;
-      transition: color 0.1s;
+      display: inline;
     }
     
     .rsvp-char.orp {
-      color: #60a5fa;
+      color: #ef4444;
       font-size: 1.15em;
-      position: relative;
-      animation: pulse 0.3s ease-out;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
+      display: inline;
     }
     
     .rsvp-controls {
@@ -230,7 +229,7 @@ function getStyles() {
     }
     
     .rsvp-btn {
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      background: linear-gradient(135deg, #ef4444, #dc2626);
       border: none;
       color: #fff;
       font-size: 18px;
@@ -239,12 +238,12 @@ function getStyles() {
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
     }
     
     .rsvp-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
     }
     
     .rsvp-btn:active {
@@ -265,7 +264,7 @@ function getStyles() {
     }
     
     #rsvp-wpm-value {
-      color: #60a5fa;
+      color: #ef4444;
       font-weight: 700;
       font-size: 16px;
     }
@@ -284,25 +283,25 @@ function getStyles() {
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      background: linear-gradient(135deg, #ef4444, #dc2626);
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(96, 165, 250, 0.5);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
       transition: all 0.2s;
     }
     
     #rsvp-wpm::-webkit-slider-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.7);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.7);
     }
     
     #rsvp-wpm::-moz-range-thumb {
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      background: linear-gradient(135deg, #ef4444, #dc2626);
       cursor: pointer;
       border: none;
-      box-shadow: 0 2px 8px rgba(96, 165, 250, 0.5);
+      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
     }
     
     .rsvp-progress-container {
@@ -316,7 +315,7 @@ function getStyles() {
     
     .rsvp-progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, #6366f1, #60a5fa);
+      background: linear-gradient(90deg, #dc2626, #ef4444);
       width: 0%;
       transition: width 0.2s;
       border-radius: 4px;
@@ -335,143 +334,172 @@ function getStyles() {
 }
 
 function initializeRSVPController(shadowRoot, text) {
-    // Parse text into words
-    const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+  // Parse text into words
+  const words = text.trim().split(/\s+/).filter(w => w.length > 0);
 
-    let currentIndex = 0;
-    let wpm = 300;
-    let isPlaying = false;
-    let timerId = null;
+  let currentIndex = 0;
+  let wpm = 300;
+  let isPlaying = false;
+  let timerId = null;
 
-    const wordDisplay = shadowRoot.getElementById('rsvp-word-display');
-    const playBtn = shadowRoot.getElementById('rsvp-play');
-    const pauseBtn = shadowRoot.getElementById('rsvp-pause');
-    const resetBtn = shadowRoot.getElementById('rsvp-reset');
-    const wpmSlider = shadowRoot.getElementById('rsvp-wpm');
-    const wpmValue = shadowRoot.getElementById('rsvp-wpm-value');
-    const progressBar = shadowRoot.getElementById('rsvp-progress-bar');
-    const progressText = shadowRoot.getElementById('rsvp-progress-text');
-    const closeBtn = shadowRoot.getElementById('rsvp-close');
+  const wordDisplay = shadowRoot.getElementById('rsvp-word-display');
+  const playBtn = shadowRoot.getElementById('rsvp-play');
+  const pauseBtn = shadowRoot.getElementById('rsvp-pause');
+  const resetBtn = shadowRoot.getElementById('rsvp-reset');
+  const wpmSlider = shadowRoot.getElementById('rsvp-wpm');
+  const wpmValue = shadowRoot.getElementById('rsvp-wpm-value');
+  const progressBar = shadowRoot.getElementById('rsvp-progress-bar');
+  const progressText = shadowRoot.getElementById('rsvp-progress-text');
+  const closeBtn = shadowRoot.getElementById('rsvp-close');
 
-    // Calculate delay based on word length and WPM
-    function calculateDelay(wordLength) {
-        const baseDelay = (60000 / wpm);
-        // Longer words get slightly more time
-        const lengthFactor = 1 + (wordLength - 5) * 0.05;
-        return baseDelay * Math.max(lengthFactor, 0.5);
-    }
+  // Calculate delay based on word length and WPM
+  function calculateDelay(wordLength) {
+    const baseDelay = (60000 / wpm);
+    // Longer words get slightly more time
+    const lengthFactor = 1 + (wordLength - 5) * 0.05;
+    return baseDelay * Math.max(lengthFactor, 0.5);
+  }
 
-    // Calculate ORP (Optimal Recognition Point)
-    function getORP(word) {
-        return Math.floor(word.length * 0.35);
-    }
+  // Calculate ORP (Optimal Recognition Point)
+  function getORP(word) {
+    return Math.floor(word.length * 0.35);
+  }
 
-    // Display word with ORP highlighting
-    function displayWord(word) {
-        const orpIndex = getORP(word);
-        const chars = word.split('').map((char, i) => {
-            const className = i === orpIndex ? 'rsvp-char orp' : 'rsvp-char';
-            return `<span class="${className}">${char}</span>`;
-        }).join('');
+  // Counter for unique word IDs
+  let wordCounter = 0;
 
-        wordDisplay.innerHTML = `<div class="rsvp-word">${chars}</div>`;
-    }
+  // Display word with ORP highlighting - keep ORP at 35% from left
+  function displayWord(word) {
+    const orpIndex = getORP(word);
+    wordCounter++;
+    const uniqueId = `rsvp-word-${wordCounter}`;
 
-    // Update progress
-    function updateProgress() {
-        const progress = (currentIndex / words.length) * 100;
-        progressBar.style.width = progress + '%';
-        progressText.textContent = Math.round(progress) + '%';
-    }
+    // Build word with spans
+    const chars = word.split('').map((char, i) => {
+      const className = i === orpIndex ? 'rsvp-char orp' : 'rsvp-char';
+      return `<span class="${className}">${char}</span>`;
+    }).join('');
 
-    // Main display loop
-    function displayNextWord() {
-        if (!isPlaying || currentIndex >= words.length) {
-            if (currentIndex >= words.length) {
-                // Finished
-                isPlaying = false;
-                playBtn.style.display = 'inline-block';
-                pauseBtn.style.display = 'none';
-                wordDisplay.innerHTML = '<div style="font-size: 24px; color: #60a5fa;">✓ Complete!</div>';
-            }
-            return;
-        }
+    // Clear display and set new word
+    wordDisplay.innerHTML = `<div class="rsvp-word" id="${uniqueId}">${chars}</div>`;
 
-        const word = words[currentIndex];
-        displayWord(word);
-        updateProgress();
+    // Calculate offset to position the ORP character at 35% from left
+    requestAnimationFrame(() => {
+      const wordEl = shadowRoot.getElementById(uniqueId);
+      if (!wordEl) return;
+      
+      const orpEl = wordEl.querySelector('.orp');
+      if (orpEl) {
+        const orpRect = orpEl.getBoundingClientRect();
+        const displayRect = wordDisplay.getBoundingClientRect();
 
-        currentIndex++;
-        const delay = calculateDelay(word.length);
-        timerId = setTimeout(displayNextWord, delay);
-    }
+        // Calculate how far the ORP is from 35% position
+        const targetPosition = displayRect.left + displayRect.width * 0.35;
+        const orpCenter = orpRect.left + orpRect.width / 2;
+        const offset = targetPosition - orpCenter;
 
-    // Event handlers
-    playBtn.addEventListener('click', () => {
-        isPlaying = true;
-        playBtn.style.display = 'none';
-        pauseBtn.style.display = 'inline-block';
-        displayNextWord();
+        // Apply transform and show
+        wordEl.style.transform = `translateX(${offset}px)`;
+        wordEl.classList.add('positioned');
+      }
     });
+  }
 
-    pauseBtn.addEventListener('click', () => {
+  // Update progress
+  function updateProgress() {
+    const progress = (currentIndex / words.length) * 100;
+    progressBar.style.width = progress + '%';
+    progressText.textContent = Math.round(progress) + '%';
+  }
+
+  // Main display loop
+  function displayNextWord() {
+    if (!isPlaying || currentIndex >= words.length) {
+      if (currentIndex >= words.length) {
+        // Finished
         isPlaying = false;
         playBtn.style.display = 'inline-block';
         pauseBtn.style.display = 'none';
-        if (timerId) clearTimeout(timerId);
-    });
+        wordDisplay.innerHTML = '<div style="font-size: 24px; color: #60a5fa;">✓ Complete!</div>';
+      }
+      return;
+    }
 
-    resetBtn.addEventListener('click', () => {
-        isPlaying = false;
-        currentIndex = 0;
-        playBtn.style.display = 'inline-block';
-        pauseBtn.style.display = 'none';
-        if (timerId) clearTimeout(timerId);
-        wordDisplay.innerHTML = '<div style="font-size: 20px; color: #94a3b8;">Press ▶ to start</div>';
-        updateProgress();
-    });
+    const word = words[currentIndex];
+    displayWord(word);
+    updateProgress();
 
-    wpmSlider.addEventListener('input', (e) => {
-        wpm = parseInt(e.target.value);
-        wpmValue.textContent = wpm;
-    });
+    currentIndex++;
+    const delay = calculateDelay(word.length);
+    timerId = setTimeout(displayNextWord, delay);
+  }
 
-    closeBtn.addEventListener('click', () => {
-        if (timerId) clearTimeout(timerId);
-        rsvpOverlay.remove();
-        rsvpOverlay = null;
-    });
+  // Event handlers
+  playBtn.addEventListener('click', () => {
+    isPlaying = true;
+    playBtn.style.display = 'none';
+    pauseBtn.style.display = 'inline-block';
+    displayNextWord();
+  });
 
-    // Initial display
-    wordDisplay.innerHTML = `<div style="font-size: 20px; color: #94a3b8;">Press ▶ to start<br><span style="font-size: 14px; margin-top: 8px; display: block;">${words.length} words ready</span></div>`;
+  pauseBtn.addEventListener('click', () => {
+    isPlaying = false;
+    playBtn.style.display = 'inline-block';
+    pauseBtn.style.display = 'none';
+    if (timerId) clearTimeout(timerId);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    isPlaying = false;
+    currentIndex = 0;
+    playBtn.style.display = 'inline-block';
+    pauseBtn.style.display = 'none';
+    if (timerId) clearTimeout(timerId);
+    wordDisplay.innerHTML = '<div style="font-size: 20px; color: #94a3b8;">Press ▶ to start</div>';
+    updateProgress();
+  });
+
+  wpmSlider.addEventListener('input', (e) => {
+    wpm = parseInt(e.target.value);
+    wpmValue.textContent = wpm;
+  });
+
+  closeBtn.addEventListener('click', () => {
+    if (timerId) clearTimeout(timerId);
+    rsvpOverlay.remove();
+    rsvpOverlay = null;
+  });
+
+  // Initial display
+  wordDisplay.innerHTML = `<div style="font-size: 20px; color: #94a3b8;">Press ▶ to start<br><span style="font-size: 14px; margin-top: 8px; display: block;">${words.length} words ready</span></div>`;
 }
 
 function makeDraggable(handle, element) {
-    let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
+  let isDragging = false;
+  let currentX;
+  let currentY;
+  let initialX;
+  let initialY;
 
-    handle.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        initialX = e.clientX - element.offsetLeft;
-        initialY = e.clientY - element.offsetTop;
-    });
+  handle.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    initialX = e.clientX - element.offsetLeft;
+    initialY = e.clientY - element.offsetTop;
+  });
 
-    document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            e.preventDefault();
-            currentX = e.clientX - initialX;
-            currentY = e.clientY - initialY;
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      e.preventDefault();
+      currentX = e.clientX - initialX;
+      currentY = e.clientY - initialY;
 
-            element.style.left = currentX + 'px';
-            element.style.top = currentY + 'px';
-            element.style.transform = 'none';
-        }
-    });
+      element.style.left = currentX + 'px';
+      element.style.top = currentY + 'px';
+      element.style.transform = 'none';
+    }
+  });
 
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
 }
