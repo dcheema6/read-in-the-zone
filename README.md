@@ -2,6 +2,8 @@
 
 A high-performance Chrome Extension for Rapid Serial Visual Presentation (RSVP) speed reading with a beautiful picture-in-picture overlay.
 
+> **Inspired by**: ["How Fast Can You Read? - Speed Reading Challenge"](https://www.youtube.com/watch?v=NdKcDPBQ-Lw)
+
 ## Features
 
 ✨ **Dual Triggering Modes:**
@@ -92,6 +94,7 @@ read-in-the-zone/
 
 ## Credits
 
+- Inspired by ["How Fast Can You Read? - Speed Reading Challenge"](https://www.youtube.com/watch?v=NdKcDPBQ-Lw)
 - Built with Antigravity AI
 - Readability.js by Mozilla
 - Icon design generated with AI
