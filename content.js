@@ -375,9 +375,12 @@ function initializeRSVPController(shadowRoot, text) {
     return baseDelay;
   }
 
-  // Calculate ORP (Optimal Recognition Point)
+  // Calculate ORP (Optimal Recognition Point) - approximately 35% from start
   function getORP(word) {
-    return Math.floor(word.length * 0.35);
+    // Using 0.3 instead of 0.35 gives better visual results
+    // because it accounts for the fact that we're positioning character centers
+    const orpPosition = Math.floor(word.length * 0.3);
+    return Math.max(0, orpPosition);
   }
 
   // Counter for unique word IDs
